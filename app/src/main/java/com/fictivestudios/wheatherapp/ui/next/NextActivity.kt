@@ -3,6 +3,7 @@ package com.fictivestudios.wheatherapp.ui.next
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,7 @@ class NextActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun initialize() {
+        setOnBackPressedListener()
         binding.recyclerView.adapter = adapter
 
         binding.multiStateView.viewState =
@@ -135,5 +137,15 @@ class NextActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         }
         binding.multiStateView.viewState =
             MultiStateView.ViewState.LOADING
+    }
+
+    private fun setOnBackPressedListener() {
+        onBackPressedDispatcher.addCallback(
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    startActivity(Intent(this@NextActivity, HomeActivity::class.java))
+                    finish()
+                }
+            })
     }
 }
